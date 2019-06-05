@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import Rest from './components/rest'
+import SearchForm from "./components/searchForm";
 function App() {
   return (
     <div className="App">
@@ -9,21 +10,10 @@ function App() {
         <div className="limiter">
           <div className="container-login100">
             <div className="wrap-login100 p-t-50 p-b-90">
-              <form className="login100-form validate-form flex-sb flex-w">
-                <span className="login100-form-title p-b-51">
-                  In a site far far away ...
-                </span>
-                <div className="wrap-input100 validate-input m-b-16" data-validate="Search terms are required">
-                  <input className="input100" type="text" name="searchInput" placeholder="Search..." />
-                  <span className="focus-input100" />
-                </div>
-                <div className="container-login100-form-btn m-t-17">
-                  <button className="login100-form-btn">
-                    Go
-                  </button>
-                </div>
-              </form>
+              <SearchForm></SearchForm>
             </div>
+            <Rest></Rest>
+
           </div>
         </div>
         <div id="dropDownSelect1" />
