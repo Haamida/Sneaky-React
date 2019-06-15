@@ -1,11 +1,11 @@
 import React from 'react';
-import Rest from "./rest";
-
 class SearchForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {value: ''};
-
+        this.state = {
+            badges: [],
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -15,24 +15,38 @@ class SearchForm extends React.Component {
     }
 
     handleSubmit(event) {
-        alert('value entered: ' + this.state.value);
+        //alert('value entered: ' + this.state.value);
+        fetch("https://api.stackexchange.com/2.2/search/excerpts?order=desc&sort=activity&accepted=True&body=react&closed=False&nottagged=reactnative&title=bootstrap%20carousel&site=stackoverflow").then((Response) => Response.json()).then((findresponse) => {
+                this.setState({
+                    badges: findresponse.items,
+                })
+            }
+        )
         event.preventDefault();
     }
 
     render() {
         return (
-            <form className="login100-form validate-form flex-sb flex-w" onSubmit={this.handleSubmit}>
-                <span className="login100-form-title p-b-51">
-                  In a site far far away ...
-                </span>
-                <div className="wrap-input100 validate-input m-b-16" data-validate="Search terms are required">
-                    <input className="input100" type="text" name="searchInput" placeholder="Search..." value={this.state.value} onChange={this.handleChange}/>
-                    <span className="focus-input100" />
-                </div>
-                <div className="container-login100-form-btn m-t-17">
-                        <input className="login100-form-btn" type="submit" value="GO" />
-                </div>
-            </form>
+            <div className="container">
+                <form className="search-form" onSubmit={this.handleSubmit}>
+                    <input type="text" name="searchInput" placeholder="Search....." value={this.state.value} onChange={this.handleChange}/>
+                    <button className="mdc-btn" type="submit">GO</button>
+                </form>
+                <div className="result" />
+                {this.state.badges.map((dynamicData, key) =>
+                    <div className="list">
+                        <ol>
+
+                            <li><p><a  href="https://stackoverflow.com/questions/{dynamicData.question_id}/{dynamicData.title}">{dynamicData.title}</a>
+                            </p>
+                            </li>
+                            <div className="wrapper">
+                                <div className="divider div-transparent"></div>
+                            </div>
+                        </ol>
+                    </div>
+                )}
+            </div>
 
         );
     }
